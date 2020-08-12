@@ -1,19 +1,13 @@
 import React from "react";
-
-const Nav = () =>
-  <nav className="navbar navbar-inverse navbar-top">
-    <div className="container-fluid">
-      <div className="navbar-header">
-        <button type="button" className="collapsed navbar-toggle">
-          <span className="sr-only">Toggle navigation</span>
-          <span className="icon-bar" /> <span className="icon-bar" />
-          <span className="icon-bar" />
-        </button>
-        <a href="/" className="navbar-brand">
-          React Reading List
-        </a>
-      </div>
-    </div>
-  </nav>;
+import Navbar from 'react-bootstrap/Navbar'
+import Button from 'react-bootstrap/Button'
+const Nav = () =>  
+<Navbar bg="dark" variant="dark" expand="lg">
+  <Navbar.Brand href="/">Agila Retro 🦅</Navbar.Brand>
+  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+  <Navbar.Collapse id="basic-navbar-nav">
+  <Button href="/retro">Retro</Button>
+  </Navbar.Collapse>
+</Navbar>
 
 export default Nav;

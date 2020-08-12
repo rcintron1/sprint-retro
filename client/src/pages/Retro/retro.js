@@ -1,118 +1,75 @@
-import React, { Component } from "react";
-import DeleteBtn from "../../components/DeleteBtn";
-import Jumbotron from "../../components/Jumbotron";
+import React, { useState } from "react";
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
-import { Col, Row, Container } from "../../components/Grid";
-import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import Table from 'react-bootstrap/Table'
 
-class Books extends Component {
-  state = {
-    books: [],
-    title: "",
-    author: "",
-    synopsis: ""
-  };
 
-  componentDidMount() {
-    this.loadBooks();
+const retroCard = (props)=>{
+  const [txtBoxValue, setTxtBoxValue] = useState("")
+  const add_button=(e)=>{
+    
+    props.set_text([...props.texts, txtBoxValue])
+    setTxtBoxValue("")
+  }
+  const rem_button=(e, id)=>{
+    e.preventDefault();
+    const retVal = props.texts.filter((x,i)=>i!==id)
+    console.log(id)
+    props.set_text(retVal)
   }
 
-  loadBooks = () => {
-    API.getBooks()
-      .then(res =>
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
-      )
-      .catch(err => console.log(err));
-  };
-
-  deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.loadBooks())
-      .catch(err => console.log(err));
-  };
-
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
-  };
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-    if (this.state.title && this.state.author) {
-      API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
-        synopsis: this.state.synopsis
-      })
-        .then(res => this.loadBooks())
-        .catch(err => console.log(err));
-    }
-  };
-
-  render() {
-    return (
-      <Container fluid>
-        <Row>
-          <Col size="md-6">
-            <Jumbotron>
-              <h1>What Books Should I Read?</h1>
-            </Jumbotron>
-            <form>
-              <Input
-                value={this.state.title}
-                onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title (required)"
-              />
-              <Input
-                value={this.state.author}
-                onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
-              />
-              <TextArea
-                value={this.state.synopsis}
-                onChange={this.handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
-              />
-              <FormBtn
-                disabled={!(this.state.author && this.state.title)}
-                onClick={this.handleFormSubmit}
-              >
-                Submit Book
-              </FormBtn>
-            </form>
-          </Col>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>Books On My List</h1>
-            </Jumbotron>
-            {this.state.books.length ? (
-              <List>
-                {this.state.books.map(book => (
-                  <ListItem key={book._id}>
-                    <Link to={"/books/" + book._id}>
-                      <strong>
-                        {book.title} by {book.author}
-                      </strong>
-                    </Link>
-                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
+  return(
+    <Card style={{ width: '18rem' }}>
+    {console.log(props)}
+    { /* <Card.Img variant="top" src="holder.js/100px180" /> */ }
+    <Card.Body>
+      <Card.Title>{props.name}</Card.Title>
+      
+        <Form.Control as="textarea" onChange={e=>setTxtBoxValue(e.target.value)} value={txtBoxValue} rows="3" />
+        <Button variant="primary" onClick={add_button}>Add</Button>
+        <Table striped bordered hover>
+          <tbody>
+          {props.texts.map((text,id)=>
+            <tr key={id}>
+              <td>{text}</td>
+              <td><Button variant="link" onClick={(e)=>{rem_button(e, id)}}>x</Button></td>
+            </tr>)}
+          </tbody>
+        </Table>
+      
+      
+    </Card.Body>
+  </Card>
+  )
 }
 
-export default Books;
+
+const Retro = ()=> {
+  const [retroTodo, setRetroTodo] = useState(["It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "])
+  const [retroStop, setRetroStop] = useState([])
+  const [retroContinue, setRetroContinue] = useState([])
+
+
+  return(
+  
+    <Container>
+      <Row>
+        <Col>{retroCard({name:"To Do", texts:retroTodo, set_text:setRetroTodo})}</Col>
+        <Col>{retroCard({name:"Stop Doing", texts:retroStop, set_text:setRetroStop})}</Col>
+        <Col>{retroCard({name:"Continue Doing", texts:retroContinue, set_text:setRetroContinue})}</Col>
+      </Row>
+      <Row>
+      <Col>{retroCard({name:"To Do", texts:retroTodo, set_text:setRetroTodo})}</Col>
+      <Col>{retroCard({name:"To Do", texts:retroStop, set_text:setRetroStop})}</Col>
+      <Col>{retroCard({name:"To Do", texts:retroContinue, set_text:setRetroContinue})}</Col>
+      </Row>
+    </Container>
+  )
+}
+
+export default Retro;
