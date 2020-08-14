@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
@@ -8,8 +8,12 @@ import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import Table from 'react-bootstrap/Table'
+import io from 'socket.io-client'
 
-
+const socket = io()
+socket.on('event', (data) => {
+  console.log("Event", data);
+});
 const retroCard = (props)=>{
   const [txtBoxValue, setTxtBoxValue] = useState("")
   const add_button=(e)=>{
@@ -26,7 +30,6 @@ const retroCard = (props)=>{
 
   return(
     <Card style={{ width: '18rem' }}>
-    {console.log(props)}
     { /* <Card.Img variant="top" src="holder.js/100px180" /> */ }
     <Card.Body>
       <Card.Header>{props.name}</Card.Header>
@@ -53,7 +56,6 @@ const retroCardRead = (props)=>{
   
   return(
     <Card style={{ width: '18rem' }}>
-    {console.log(props)}
     { /* <Card.Img variant="top" src="holder.js/100px180" /> */ }
     <Card.Body>
       <Card.Title>{props.name}</Card.Title>
@@ -80,6 +82,12 @@ const Retro = ()=> {
   const [retroStopRead, setRetroStopRead] = useState([])
   const [retroContinueRead, setRetroContinueRead] = useState([])
 
+  // const socket = io()
+  useEffect(()=>{
+    socket.emit('chat message',retroStart);
+  },[retroStart])
+
+  
   return(
   
     <Container>
@@ -87,7 +95,7 @@ const Retro = ()=> {
         <Card.Header>Unread</Card.Header>        
           <Card.Body>
           <Row>
-            <Col>{retroCard({name:"Start Doing", texts:retroStart, set_text:setRetroStartRead})}</Col>
+            <Col>{retroCard({name:"Start Doing", texts:retroStart, set_text:setRetroStart})}</Col>
             <Col>{retroCard({name:"Stop Doing", texts:retroStop, set_text:setRetroStop})}</Col>
             <Col>{retroCard({name:"Continue Doing", texts:retroContinue, set_text:setRetroContinue})}</Col>
           </Row>
