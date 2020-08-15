@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
+import InputGroup from 'react-bootstrap/InputGroup'
+import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
@@ -74,7 +76,38 @@ const retroCardRead = (props)=>{
   </Card>
   )
 }
-const Retro = ()=> {
+
+const RetroStartForm = (props) =>{
+  const [session, setSession] = useState("")
+  const buttonClick = (e)=>{
+    e.preventDefault()
+    console.log(session)
+    const tmpSessionId= Date.now()
+    e.target.value==="Existing"?props.setSession(session):props.setSession(Date.now(tmpSessionId))
+  }
+  return(
+  <Container sm="4">
+    <Form >
+      <Row>
+        <Col>
+          <InputGroup  >
+            <InputGroup.Prepend>
+              <Button value="Existing" variant="secondary" onClick={buttonClick}>Join Session</Button>
+            </InputGroup.Prepend>
+            <FormControl aria-describedby="basic-addon1" value={session}  onChange = {(e)=>setSession(e.target.value)} placeholder="1234567"/>
+            </InputGroup>
+            </Col>
+            <Col>
+            <Button value="New" onClick={buttonClick}>New Session</Button>
+          </Col>
+        </Row>
+      </Form>
+  </Container>)
+}
+
+
+
+const RetroBody = (props)=> {
   const [retroStart, setRetroStart] = useState([])
   const [retroStop, setRetroStop] = useState([])
   const [retroContinue, setRetroContinue] = useState([])
@@ -92,6 +125,7 @@ const Retro = ()=> {
   
     <Container>
       <Card >
+        <h1>{props.session}</h1>
         <Card.Header>Unread</Card.Header>        
           <Card.Body>
           <Row>
@@ -112,6 +146,17 @@ const Retro = ()=> {
           </Card.Body>
       </Card>
     </Container>
+  )
+}
+const Retro = ()=>{
+  const [sessionID, setSessionID] = useState()
+
+
+  return(
+    <React.Fragment>
+    {sessionID?<RetroBody session={sessionID} />:<RetroStartForm setSession={setSessionID}/>}
+    
+    </React.Fragment>
   )
 }
 

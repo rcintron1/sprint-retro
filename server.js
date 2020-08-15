@@ -14,11 +14,15 @@ app.use(bodyParser.json());
 app.use(express.static("client/build"));
 // Add routes, both API and view
 // app.use(routes);
-
+let count = 0
 io.on('connection', (socket) => {
+  console.log('connection count:',++count)
   socket.on('chat message', (msg) => {
     io.emit('event', { someProperty: msg })
     console.log('message: ' + msg);
+  });
+  socket.on('disconnect', () => {
+    console.log('connection count:', --count);
   });
 });
 
