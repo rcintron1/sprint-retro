@@ -121,9 +121,9 @@ const RetroBody = (props)=> {
 
   // const socket = io()
   useEffect(()=>{
-    const = {retroStart, retroStop, retroContinue}
-    socket.emit('chat message',retroStart);
-  },[retroStart])
+    const msg = {session:props.session, retroStart, retroStop, retroContinue}
+    socket.emit('chat message', msg);
+  },[retroStart, retroStop, retroContinue])
 
   
   return(
