@@ -12,10 +12,11 @@ import Form from 'react-bootstrap/Form'
 import Table from 'react-bootstrap/Table'
 import io from 'socket.io-client'
 
-const socket = io()
-socket.on('event', (data) => {
-  console.log("Event", data);
-});
+// const socket = io()
+// socket.on('event', (data) => {
+//   console.log("Event", data);
+// });
+
 const retroCard = (props)=>{
   const [txtBoxValue, setTxtBoxValue] = useState("")
   const add_button=(e)=>{
@@ -32,7 +33,6 @@ const retroCard = (props)=>{
 
   return(
     <Card style={{ width: '18rem' }}>
-    { /* <Card.Img variant="top" src="holder.js/100px180" /> */ }
     <Card.Body>
       <Card.Header>{props.name}</Card.Header>
       
@@ -112,6 +112,7 @@ const RetroStartForm = (props) =>{
 
 
 const RetroBody = (props)=> {
+  const socket = props.messenger
   const [retroStart, setRetroStart] = useState([])
   const [retroStop, setRetroStop] = useState([])
   const [retroContinue, setRetroContinue] = useState([])
@@ -119,18 +120,17 @@ const RetroBody = (props)=> {
   const [retroStopRead, setRetroStopRead] = useState([])
   const [retroContinueRead, setRetroContinueRead] = useState([])
 
-  // const socket = io()
+  
   useEffect(()=>{
     const msg = {session:props.session, retroStart, retroStop, retroContinue}
-    socket.emit('chat message', msg);
+    msg.session.session&&props.messenger.emit('chat message', msg)
   },[retroStart, retroStop, retroContinue])
-
   
   return(
   
     <Container>
       <Card >
-        <h1>Session ID: {props.session.session}</h1>
+        <h1>Name: {props.session.name} Session ID: {props.session.session}</h1>
         <Card.Header>Unread</Card.Header>        
           <Card.Body>
           <Row>
@@ -154,13 +154,32 @@ const RetroBody = (props)=> {
   )
 }
 const Retro = ()=>{
-  const [sessionID, setSessionID] = useState({})
 
+  
+  const [sessionID, setSessionID] = useState({})
+  
+  /**
+   * The idea hear is to create 1 socket if you have a session ID
+   * First check state for sessionID
+   * Then check if socket has been set
+   * lastly set an event when data is received
+   */
+  
+  let socket
+  if (!socket){
+    console.log(!socket, sessionID)
+    if ("session" in sessionID){
+      socket=io()
+      socket.on('event', (data) => {
+        console.log("Event", data);
+      })
+    }
+  }
 
   return(
     <React.Fragment>
     {console.log(sessionID)}
-    {"session" in sessionID?<RetroBody session={sessionID} />:<RetroStartForm setSession={setSessionID}/>}
+    {"session" in sessionID?<RetroBody session={sessionID} messenger={socket}/>:<RetroStartForm setSession={setSessionID}/>}
     
     </React.Fragment>
   )

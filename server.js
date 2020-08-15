@@ -19,7 +19,7 @@ io.on('connection', (socket) => {
   console.log('connection count:',++count)
   socket.on('chat message', (msg) => {
     io.emit('event', msg )
-    console.log('message: ' + msg);
+    console.log('message: ' + JSON.stringify(msg));
   });
   socket.on('disconnect', () => {
     console.log('connection count:', --count);
