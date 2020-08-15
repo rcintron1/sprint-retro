@@ -79,28 +79,32 @@ const retroCardRead = (props)=>{
 
 const RetroStartForm = (props) =>{
   const [session, setSession] = useState("")
+  const [name, setName] = useState("")
   const buttonClick = (e)=>{
     e.preventDefault()
     console.log(session)
     const tmpSessionId= Date.now()
-    e.target.value==="Existing"?props.setSession(session):props.setSession(Date.now(tmpSessionId))
+    e.target.value==="Existing"?props.setSession({name, session}):props.setSession({name, session:tmpSessionId})
   }
   return(
   <Container sm="4">
     <Form >
       <Row>
         <Col>
+        <FormControl aria-describedby="basic-addon1" value={name}  onChange = {(e)=>setName(e.target.value)} placeholder="Your Name"/>
+        </Col>
+        <Col>
           <InputGroup  >
             <InputGroup.Prepend>
               <Button value="Existing" variant="secondary" onClick={buttonClick}>Join Session</Button>
             </InputGroup.Prepend>
             <FormControl aria-describedby="basic-addon1" value={session}  onChange = {(e)=>setSession(e.target.value)} placeholder="1234567"/>
-            </InputGroup>
-            </Col>
-            <Col>
-            <Button value="New" onClick={buttonClick}>New Session</Button>
-          </Col>
-        </Row>
+          </InputGroup>
+        </Col>
+        <Col>
+          <Button value="New" onClick={buttonClick}>New Session</Button>
+        </Col>
+      </Row>
       </Form>
   </Container>)
 }
@@ -117,6 +121,7 @@ const RetroBody = (props)=> {
 
   // const socket = io()
   useEffect(()=>{
+    const = {retroStart, retroStop, retroContinue}
     socket.emit('chat message',retroStart);
   },[retroStart])
 
@@ -125,7 +130,7 @@ const RetroBody = (props)=> {
   
     <Container>
       <Card >
-        <h1>{props.session}</h1>
+        <h1>Session ID: {props.session.session}</h1>
         <Card.Header>Unread</Card.Header>        
           <Card.Body>
           <Row>
@@ -149,12 +154,13 @@ const RetroBody = (props)=> {
   )
 }
 const Retro = ()=>{
-  const [sessionID, setSessionID] = useState()
+  const [sessionID, setSessionID] = useState({})
 
 
   return(
     <React.Fragment>
-    {sessionID?<RetroBody session={sessionID} />:<RetroStartForm setSession={setSessionID}/>}
+    {console.log(sessionID)}
+    {"session" in sessionID?<RetroBody session={sessionID} />:<RetroStartForm setSession={setSessionID}/>}
     
     </React.Fragment>
   )

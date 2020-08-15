@@ -18,7 +18,7 @@ let count = 0
 io.on('connection', (socket) => {
   console.log('connection count:',++count)
   socket.on('chat message', (msg) => {
-    io.emit('event', { someProperty: msg })
+    io.emit('event', msg )
     console.log('message: ' + msg);
   });
   socket.on('disconnect', () => {
