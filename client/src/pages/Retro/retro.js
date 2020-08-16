@@ -18,11 +18,13 @@ import io from 'socket.io-client'
 // });
 
 const retroCard = (props)=>{
+  console.log(props)
   const [txtBoxValue, setTxtBoxValue] = useState("")
   const add_button=(e)=>{
     
-    props.set_text([...props.texts, txtBoxValue])
+    props.set_text([...props.texts, {user:props.session.name, text:txtBoxValue}])
     setTxtBoxValue("")
+
   }
   const rem_button=(e, id)=>{
     e.preventDefault();
@@ -42,7 +44,7 @@ const retroCard = (props)=>{
           <tbody>
           {props.texts.map((text,id)=>
             <tr key={id}>
-              <td>{text}</td>
+              <td>{text.user}</td><td>{text.text}</td>
               <td><Button variant="link" onClick={(e)=>{rem_button(e, id)}}>x</Button></td>
             </tr>)}
           </tbody>
@@ -119,7 +121,7 @@ const RetroBody = (props)=> {
   const [retroStartRead, setRetroStartRead] = useState([])
   const [retroStopRead, setRetroStopRead] = useState([])
   const [retroContinueRead, setRetroContinueRead] = useState([])
-
+  const [guestData, setGuestData] = useState([])
   
   useEffect(()=>{
     const msg = {session:props.session, retroStart, retroStop, retroContinue}
@@ -130,13 +132,25 @@ const RetroBody = (props)=> {
   
     <Container>
       <Card >
-        <h1>Name: {props.session.name} Session ID: {props.session.session}</h1>
+        <h2>Name: {props.session.name} Session ID: {props.session.session}</h2>
         <Card.Header>Unread</Card.Header>        
           <Card.Body>
           <Row>
-            <Col>{retroCard({name:"Start Doing", texts:retroStart, set_text:setRetroStart})}</Col>
-            <Col>{retroCard({name:"Stop Doing", texts:retroStop, set_text:setRetroStop})}</Col>
-            <Col>{retroCard({name:"Continue Doing", texts:retroContinue, set_text:setRetroContinue})}</Col>
+            <Col>{retroCard({
+              name:"Start Doing",
+              texts:retroStart,
+              set_text:setRetroStart,
+              session:props.session})}</Col>
+            <Col>{retroCard({
+              name:"Stop Doing",
+              texts:retroStop,
+              set_text:setRetroStop,
+              sesion:props.session})}</Col>
+            <Col>{retroCard({
+              name:"Continue Doing",
+              texts:retroContinue,
+              set_text:setRetroContinue,
+              sesion:props.session})}</Col>
           </Row>
         </Card.Body>
       </Card>
@@ -164,7 +178,7 @@ const Retro = ()=>{
    * Then check if socket has been set
    * lastly set an event when data is received
    */
-  
+
   let socket
   if (!socket){
     console.log(!socket, sessionID)
