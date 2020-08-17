@@ -18,7 +18,6 @@ import io from 'socket.io-client'
 // });
 
 const retroCard = (props)=>{
-  console.log(props)
   const [txtBoxValue, setTxtBoxValue] = useState("")
   const add_button=(e)=>{
     
@@ -29,7 +28,6 @@ const retroCard = (props)=>{
   const rem_button=(e, id)=>{
     e.preventDefault();
     const retVal = props.texts.filter((x,i)=>i!==id)
-    console.log(id)
     props.set_text(retVal)
   }
 
