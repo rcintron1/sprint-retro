@@ -176,14 +176,24 @@ const Retro = ()=>{
    * Then check if socket has been set
    * lastly set an event when data is received
    */
+  const socket_connect = function (room) {
+    return io('localhost:3000', {
+        query: 'r_var='+room
+    });
+  }
 
+   
   let socket
   if (!socket){
     console.log(!socket, sessionID)
     if ("session" in sessionID){
-      socket=io()
-      socket.on('event', (data) => {
-        console.log("Event", data);
+      // socket=io()
+      // socket.on('event', (data) => {
+      //   console.log("Event", data);
+      // })
+      socket = socket_connect(sessionID.session);
+      socket.on('chat message', (data) =>{
+        console.log("Chat", data)
       })
     }
   }
