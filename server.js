@@ -25,8 +25,6 @@ let count = 0
 //     console.log('connection count:', --count);
 //   });
 // });
-const socket_connect = function (room) {
-
 
 
 io.on('connection', function(socket){
@@ -50,4 +48,4 @@ io.on('connection', function(socket){
 // Start the API server
 http.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
-})
+});
