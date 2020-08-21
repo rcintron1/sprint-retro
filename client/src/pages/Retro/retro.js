@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import Card from 'react-bootstrap/Card'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Accordion from 'react-bootstrap/Accordion'
 import CardDeck from 'react-bootstrap/CardDeck'
 import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
@@ -11,6 +13,7 @@ import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import Table from 'react-bootstrap/Table'
 import io from 'socket.io-client'
+import Badge from 'react-bootstrap/Badge'
 
 // const socket = io()
 // socket.on('event', (data) => {
@@ -32,7 +35,7 @@ const retroCard = (props)=>{
   }
 
   return(
-    <Card style={{ width: '18rem' }}>
+    <Card sm={12}>
     <Card.Body>
       <Card.Header>{props.name}</Card.Header>
       
@@ -42,8 +45,7 @@ const retroCard = (props)=>{
           <tbody>
           {props.texts.map((text,id)=>
             <tr key={id}>
-              <td>{text.user}</td><td>{text.text}</td>
-              <td><Button variant="link" onClick={(e)=>{rem_button(e, id)}}>x</Button></td>
+              <td><Badge variant="info">{text.user}</Badge><br/>{text.text}<Button variant="link" onClick={(e)=>{rem_button(e, id)}}>x</Button></td>
             </tr>)}
           </tbody>
         </Table>
@@ -53,11 +55,40 @@ const retroCard = (props)=>{
   </Card>
   )
 }
-
+const RetroVerticalButtonGroup = (props)=>{
+  console.log(props)
+  return(
+    <ButtonGroup  vertical>
+      <Accordion defaultActiveKey="0">
+        <Card>
+          <Card.Header>
+            <Accordion.Toggle as={Button} variant="link" eventKey="0">Session Info</Accordion.Toggle>
+          </Card.Header>
+          <Accordion.Collapse eventKey="0">
+            <Card.Body>
+              <b>Name:</b>{props.session.name}<br/>
+              <b>Session ID:</b> {props.session.session}
+            </Card.Body>
+          </Accordion.Collapse>
+        </Card>
+        <Card>
+          <Card.Header>
+            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+              Click me!
+              </Accordion.Toggle>
+          </Card.Header>
+          <Accordion.Collapse eventKey="1">
+            <Card.Body>Hello! I'm another body</Card.Body>
+          </Accordion.Collapse>
+        </Card>
+      </Accordion>
+    </ButtonGroup>
+  )
+}
 const retroCardRead = (props)=>{
   
   return(
-    <Card style={{ width: '18rem' }}>
+    <Card sm={12}>
     { /* <Card.Img variant="top" src="holder.js/100px180" /> */ }
     <Card.Body>
       <Card.Title>{props.name}</Card.Title>
@@ -128,23 +159,27 @@ const RetroBody = (props)=> {
   
   return(
   
-    <Container>
+    <Container><Row>
+      <Col sm="3">
+        <RetroVerticalButtonGroup session={props.session}/>
+      </Col>
+      <Col sm="9">
       <Card >
         <h2>Name: {props.session.name} Session ID: {props.session.session}</h2>
         <Card.Header>Unread</Card.Header>        
           <Card.Body>
           <Row>
-            <Col>{retroCard({
+            <Col xs={4} id="retroStart">{retroCard({
               name:"Start Doing",
               texts:retroStart,
               set_text:setRetroStart,
               session:props.session})}</Col>
-            <Col>{retroCard({
+            <Col xs={4} id="retroStop">{retroCard({
               name:"Stop Doing",
               texts:retroStop,
               set_text:setRetroStop,
               sesion:props.session})}</Col>
-            <Col>{retroCard({
+            <Col xs={4} id="retroCont">{retroCard({
               name:"Continue Doing",
               texts:retroContinue,
               set_text:setRetroContinue,
@@ -162,6 +197,8 @@ const RetroBody = (props)=> {
           </Row>
           </Card.Body>
       </Card>
+      </Col>
+      </Row>
     </Container>
   )
 }
