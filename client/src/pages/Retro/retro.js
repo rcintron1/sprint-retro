@@ -43,85 +43,16 @@ const RetroStartForm = (props) =>{
   </Container>)
 }
 
-
-
-// const RetroBody = (props)=> {
-//   const socket = props.messenger
-//   const [retroStart, setRetroStart] = useState([])
-//   const [retroStop, setRetroStop] = useState([])
-//   const [retroContinue, setRetroContinue] = useState([])
-//   const [retroStartRead, setRetroStartRead] = useState([])
-//   const [retroStopRead, setRetroStopRead] = useState([])
-//   const [retroContinueRead, setRetroContinueRead] = useState([])
-//   const [guestData, setGuestData] = useState([])
-  
-//   useEffect(()=>{
-//     const msg = {session:props.session, retroStart, retroStop, retroContinue}
-//     msg.session.session&&props.messenger.emit('chat message', msg)
-//   },[retroStart, retroStop, retroContinue])
-  
-//   return(
-  
-//     <Container><Row>
-//       <Col sm="3">
-//         <RetroVerticalButtonGroup session={props.session}/>
-//       </Col>
-//       <Col sm="9">
-//       <Card >
-//         <h2>Name: {props.session.name} Session ID: {props.session.session}</h2>
-//         <Card.Header>Unread</Card.Header>        
-//           <Card.Body>
-//           <Row>
-//             <Col xs={4} id="retroStart">{retroCard({
-//               name:"Start Doing",
-//               texts:retroStart,
-//               set_text:setRetroStart,
-//               session:props.session})}</Col>
-//             <Col xs={4} id="retroStop">{retroCard({
-//               name:"Stop Doing",
-//               texts:retroStop,
-//               set_text:setRetroStop,
-//               sesion:props.session})}</Col>
-//             <Col xs={4} id="retroCont">{retroCard({
-//               name:"Continue Doing",
-//               texts:retroContinue,
-//               set_text:setRetroContinue,
-//               sesion:props.session})}</Col>
-//           </Row>
-//         </Card.Body>
-//       </Card>
-//       <Card >
-//         <Card.Header>Read</Card.Header>        
-//           <Card.Body>
-//           <Row>
-//           <Col>{retroCardRead({name:"To Do", texts:retroStartRead, set_text:setRetroStartRead})}</Col>
-//           <Col>{retroCardRead({name:"Stop Doing", texts:retroStopRead, set_text:setRetroStopRead})}</Col>
-//           <Col>{retroCardRead({name:"Continue Doing", texts:retroContinueRead, set_text:setRetroContinueRead})}</Col>
-//           </Row>
-//           </Card.Body>
-//       </Card>
-//       </Col>
-//       </Row>
-//     </Container>
-//   )
-// }
 const Retro = ()=>{
 
   
   const [sessionID, setSessionID] = useState({})
   
-  /**
-   * The idea hear is to create 1 socket if you have a session ID
-   * First check state for sessionID
-   * Then check if socket has been set
-   * lastly set an event when data is received
-   */
   const socket_connect = function (room) {
     return io('localhost:3000', {
         query: 'r_var='+room
     });
   }
-
    
   let socket
   if (!socket){

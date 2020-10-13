@@ -104,14 +104,12 @@ const retroCard = (props)=>{
 
 
 const RetroBody = (props)=> {
-  const socket = props.messenger
   const [retroStart, setRetroStart] = useState([])
   const [retroStop, setRetroStop] = useState([])
   const [retroContinue, setRetroContinue] = useState([])
   const [retroStartRead, setRetroStartRead] = useState([])
   const [retroStopRead, setRetroStopRead] = useState([])
   const [retroContinueRead, setRetroContinueRead] = useState([])
-  const [guestData, setGuestData] = useState([])
   
   useEffect(()=>{
     const msg = {session:props.session, retroStart, retroStop, retroContinue}
