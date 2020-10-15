@@ -47,7 +47,8 @@ const Retro = ()=>{
 
   
   const [sessionID, setSessionID] = useState({})
-  
+  const [sessionData, setSessionData] = useState([])
+
   const socket_connect = function (room) {
     return io('localhost:3000', {
         query: 'r_var='+room
@@ -69,10 +70,18 @@ const Retro = ()=>{
     }
   }
 
+  useEffect(()=>{
+    console.log("sessionData=> ",sessionData)
+    if ("session" in sessionData){
+      socket.emit('chat message', sessionData)
+    }
+    
+  },[sessionData])
+
   return(
     <React.Fragment>
     {console.log(sessionID)}
-    {"session" in sessionID?<RetroBody session={sessionID} messenger={socket}/>:<RetroStartForm setSession={setSessionID}/>}
+    {"session" in sessionID?<RetroBody session={sessionID} data={sessionData} setData={setSessionData}/>:<RetroStartForm setSession={setSessionID}/>}
     
     </React.Fragment>
   )

@@ -35,7 +35,7 @@ const retroCardRead = (props)=>{
 
 
 const RetroVerticalButtonGroup = (props)=>{
-  console.log(props)
+  // console.log(props)
   return(
     <ButtonGroup  vertical>
       <Accordion defaultActiveKey="0">
@@ -113,7 +113,7 @@ const RetroBody = (props)=> {
   
   useEffect(()=>{
     const msg = {session:props.session, retroStart, retroStop, retroContinue}
-    msg.session.session&&props.messenger.emit('chat message', msg)
+    msg.session.session&&props.setData(msg)
   },[retroStart, retroStop, retroContinue])
   
   return(
