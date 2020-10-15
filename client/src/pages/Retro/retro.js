@@ -42,10 +42,20 @@ const RetroStartForm = (props) =>{
       </Form>
   </Container>)
 }
+const count = {
+  count : 0
+}
 
+Object.defineProperty(count, "num", {
+  get: function() {
+      this.count = this.count +1
+      return this.count;
+  }
+});
+let socket
 const Retro = ()=>{
 
-  
+
   const [sessionID, setSessionID] = useState({})
   const [sessionData, setSessionData] = useState([])
 
@@ -55,7 +65,7 @@ const Retro = ()=>{
     });
   }
    
-  let socket
+  
   if (!socket){
     console.log(!socket, sessionID)
     if ("session" in sessionID){
@@ -80,7 +90,7 @@ const Retro = ()=>{
 
   return(
     <React.Fragment>
-    {console.log(sessionID)}
+    {console.log("rerendered: ",count.num) }
     {"session" in sessionID?<RetroBody session={sessionID} data={sessionData} setData={setSessionData}/>:<RetroStartForm setSession={setSessionID}/>}
     
     </React.Fragment>

@@ -68,7 +68,7 @@ const RetroVerticalButtonGroup = (props)=>{
 const retroCard = (props)=>{
   const [txtBoxValue, setTxtBoxValue] = useState("")
   const add_button=(e)=>{
-    
+    e.preventDefault()
     props.set_text([...props.texts, {user:props.session.name, text:txtBoxValue}])
     setTxtBoxValue("")
 
