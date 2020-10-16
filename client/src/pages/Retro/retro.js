@@ -60,7 +60,8 @@ const Retro = ()=>{
   const [sessionData, setSessionData] = useState([])
 
   const socket_connect = function (room) {
-    return io('localhost:3000', {
+    console.log(window.location)
+    return io({
         query: 'r_var='+room
     });
   }
@@ -75,7 +76,8 @@ const Retro = ()=>{
       // })
       socket = socket_connect(sessionID.session);
       socket.on('chat message', (data) =>{
-        console.log("Chat", data)
+        console.log("MessageFromSocket=>", data)
+        
       })
     }
   }
