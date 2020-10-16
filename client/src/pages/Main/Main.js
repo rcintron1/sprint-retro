@@ -9,7 +9,7 @@ import { Container } from "../../components/Grid";
 
 const Main = ()=> 
   <Container fluid>
-    <h1>Main Page</h1>
+    <h1>Aguila Retro</h1>
   </Container>
 
 export default Main;
