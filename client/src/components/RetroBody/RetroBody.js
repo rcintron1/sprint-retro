@@ -10,7 +10,7 @@ import Badge from 'react-bootstrap/Badge'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Accordion from 'react-bootstrap/Accordion'
 
-const retroCardRead = (props)=>{
+const RetroCardRead = (props)=>{
   
   return(
     <Card sm={12}>
@@ -65,7 +65,7 @@ const RetroVerticalButtonGroup = (props)=>{
   )
 }
 
-const retroCard = (props)=>{
+const RetroCard = (props)=>{
   const [txtBoxValue, setTxtBoxValue] = useState("")
   const add_button=(e)=>{
     e.preventDefault()
@@ -128,17 +128,17 @@ const RetroBody = (props)=> {
         <Card.Header>Unread</Card.Header>        
           <Card.Body>
           <Row>
-            <Col xs={4} id="retroStart">{retroCard({
+            <Col xs={4} id="retroStart">{RetroCard({
               name:"Start Doing",
               texts:retroStart,
               set_text:setRetroStart,
               session:props.session})}</Col>
-            <Col xs={4} id="retroStop">{retroCard({
+            <Col xs={4} id="retroStop">{RetroCard({
               name:"Stop Doing",
               texts:retroStop,
               set_text:setRetroStop,
               sesion:props.session})}</Col>
-            <Col xs={4} id="retroCont">{retroCard({
+            <Col xs={4} id="retroCont">{RetroCard({
               name:"Continue Doing",
               texts:retroContinue,
               set_text:setRetroContinue,
@@ -150,9 +150,9 @@ const RetroBody = (props)=> {
         <Card.Header>Read</Card.Header>        
           <Card.Body>
           <Row>
-          <Col>{retroCardRead({name:"To Do", texts:retroStartRead, set_text:setRetroStartRead})}</Col>
-          <Col>{retroCardRead({name:"Stop Doing", texts:retroStopRead, set_text:setRetroStopRead})}</Col>
-          <Col>{retroCardRead({name:"Continue Doing", texts:retroContinueRead, set_text:setRetroContinueRead})}</Col>
+          <Col>{RetroCardRead({name:"To Do", texts:retroStartRead, set_text:setRetroStartRead})}</Col>
+          <Col>{RetroCardRead({name:"Stop Doing", texts:retroStopRead, set_text:setRetroStopRead})}</Col>
+          <Col>{RetroCardRead({name:"Continue Doing", texts:retroContinueRead, set_text:setRetroContinueRead})}</Col>
           </Row>
           </Card.Body>
       </Card>
