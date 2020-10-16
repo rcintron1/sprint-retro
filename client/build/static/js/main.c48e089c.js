@@ -20734,7 +20734,7 @@ function triggerBrowserReflow(node) {
 // import { Link } from "react-router-dom";
 // import { List, ListItem } from "../../components/List";
 // import { Input, TextArea, FormBtn } from "../../components/Form";
-var Main=function Main(){return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components_Grid__["b" /* Container */],{fluid:true},__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h1",null,"Main Page"));};/* harmony default export */ __webpack_exports__["a"] = (Main);
+var Main=function Main(){return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components_Grid__["b" /* Container */],{fluid:true},__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h1",null,"Aguila Retro"));};/* harmony default export */ __webpack_exports__["a"] = (Main);
 
 /***/ }),
 /* 210 */
@@ -21130,4 +21130,4 @@ function useCommittedRef(value) {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.4926e328.js.map
+//# sourceMappingURL=main.c48e089c.js.map
