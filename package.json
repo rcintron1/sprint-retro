@@ -1,29 +1,19 @@
 {
-  "name": "mern",
+  "name": "aguilaretro",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
   "scripts": {
-    "server": "node server.js",
-    "client": "node scripts/start-client.js",
-    "start": "concurrently \"nodemon server.js\" \"npm run client\"",
-    "build": "node scripts/build.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "installDeps": "yarn && cd client && yarn"
-  },
-  "heroku-run-build-script": true,
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^5.3.0",
-    "eslint-plugin-react-hooks": "^4.0.8",
-    "nodemon": "^2.0.5"
+    "client": "cd client && yarn start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "heroku-postbuild": "cd client && yarn build"
   },
   "dependencies": {
-    "axios": "^0.20.0",
-    "body-parser": "^1.17.2",
-    "express": "^4.15.4",
-    "react-scripts": "^3.4.3",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
     "socket.io": "^2.3.0"
-  }
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1"
+  },
+  "license": "ISC"
 }
