@@ -69,10 +69,6 @@ const Retro = ()=>{
   if (!socket){
     console.log(!socket, sessionID)
     if ("session" in sessionID){
-      // socket=io()
-      // socket.on('event', (data) => {
-      //   console.log("Event", data);
-      // })
       socket = socket_connect(sessionID.session);
       socket.on('chat message', (data) =>{
         console.log("MessageFromSocket=>", data)
@@ -83,16 +79,23 @@ const Retro = ()=>{
 
   useEffect(()=>{
     console.log("sessionData=> ",sessionData)
-    if ("session" in sessionData){
-      socket.emit('chat message', sessionData)
-    }
-    
   },[sessionData])
+
+  /**
+   * Sends data to distributions server
+   * @param {string} msg 
+   */
+  const sendDataToSocket = (msg)=>{
+    console.log("sendDataToSocket", msg)
+    if ("session" in sessionID){
+      socket.emit('chat message', msg)
+    }
+  }
 
   return(
     <React.Fragment>
     {console.log("rerendered: ",count.num) }
-    {"session" in sessionID?<RetroBody session={sessionID} data={sessionData} setData={setSessionData}/>:<RetroStartForm setSession={setSessionID}/>}
+    {"session" in sessionID?<RetroBody session={sessionID} data={sessionData} setData={sendDataToSocket}/>:<RetroStartForm setSession={setSessionID}/>}
     
     </React.Fragment>
   )

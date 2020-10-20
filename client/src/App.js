@@ -5,7 +5,7 @@ import Main from "./pages/Main";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
 
 
 const App = () =>
