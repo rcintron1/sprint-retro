@@ -10,30 +10,6 @@ import Badge from 'react-bootstrap/Badge'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Accordion from 'react-bootstrap/Accordion'
 
-const RetroCardRead = (props)=>{
-  
-  return(
-    <Card sm={12}>
-    { /* <Card.Img variant="top" src="holder.js/100px180" /> */ }
-    <Card.Body>
-      <Card.Title>{props.name}</Card.Title>
-        <Table striped bordered hover>
-          <tbody>
-          {props.texts.map((text,id)=>
-            <tr key={id}>
-              <td>{text}</td>
-              
-            </tr>)}
-          </tbody>
-        </Table>
-      
-      
-    </Card.Body>
-  </Card>
-  )
-}
-
-
 const RetroVerticalButtonGroup = (props)=>{
   // console.log(props)
   return(
@@ -65,7 +41,31 @@ const RetroVerticalButtonGroup = (props)=>{
   )
 }
 
+const RetroCardRead = (props)=>{
+  
+  return(
+    <Card sm={12}>
+    { /* <Card.Img variant="top" src="holder.js/100px180" /> */ }
+    <Card.Body>
+      <Card.Title>{props.name}</Card.Title>
+        <Table striped bordered hover>
+          <tbody>
+          {props.texts.map((text,id)=>
+            <tr key={id}>
+              <td>{text}</td>
+              
+            </tr>)}
+          </tbody>
+        </Table>
+      
+      
+    </Card.Body>
+  </Card>
+  )
+}
+
 const RetroCard = (props)=>{
+  
   const [txtBoxValue, setTxtBoxValue] = useState("")
   const add_button=(e)=>{
     e.preventDefault()
@@ -91,7 +91,7 @@ const RetroCard = (props)=>{
           {props.texts.map((text,id)=>
             <tr key={id}>
               <td><Badge variant="info">{text.user}</Badge><br/>{text.text}<Button variant="link" onClick={(e)=>{rem_button(e, id)}}>x</Button></td>
-            </tr>)}
+            </tr>)||[]}
           </tbody>
         </Table>
       
@@ -103,7 +103,7 @@ const RetroCard = (props)=>{
 
 
 
-const RetroBody = (props)=> {
+const RetroBody = ({session, data, setData})=> {
   const [retroStart, setRetroStart] = useState([])
   const [retroStop, setRetroStop] = useState([])
   const [retroContinue, setRetroContinue] = useState([])
@@ -112,19 +112,23 @@ const RetroBody = (props)=> {
   const [retroContinueRead, setRetroContinueRead] = useState([])
   
   useEffect(()=>{
-    const msg = {session:props.session, retroStart, retroStop, retroContinue}
-    msg.session.session&&props.setData(msg)
+    const msg = {session, 
+      data: {
+        retroStart, retroStop, retroContinue
+      }
+    }
+    msg.session.session && setData(msg)
   },[retroStart, retroStop, retroContinue])
   
   return(
   
     <Container><Row>
       <Col sm="3">
-        <RetroVerticalButtonGroup session={props.session}/>
+        <RetroVerticalButtonGroup session={session}/>
       </Col>
       <Col sm="9">
       <Card >
-        <h2>Name: {props.session.name} Session ID: {props.session.session}</h2>
+        <h2>Name: {session.name} Session ID: {session.session}</h2>
         <Card.Header>Unread</Card.Header>        
           <Card.Body>
           <Row>
@@ -132,17 +136,17 @@ const RetroBody = (props)=> {
               name:"Start Doing",
               texts:retroStart,
               set_text:setRetroStart,
-              session:props.session})}</Col>
+              session:session})}</Col>
             <Col xs={4} id="retroStop">{RetroCard({
               name:"Stop Doing",
               texts:retroStop,
               set_text:setRetroStop,
-              sesion:props.session})}</Col>
+              sesion:session})}</Col>
             <Col xs={4} id="retroCont">{RetroCard({
               name:"Continue Doing",
               texts:retroContinue,
               set_text:setRetroContinue,
-              sesion:props.session})}</Col>
+              sesion:session})}</Col>
           </Row>
         </Card.Body>
       </Card>

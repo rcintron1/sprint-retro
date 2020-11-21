@@ -10,6 +10,7 @@ import io from 'socket.io-client'
 import RetroBody from "../../components/RetroBody"
 
 
+
 const RetroStartForm = (props) =>{
   const [session, setSession] = useState("")
   const [name, setName] = useState("")
@@ -59,7 +60,7 @@ const Retro = ()=>{
   const [sessionData, setSessionData] = useState([])
 
   const socket_connect = function (room) {
-    console.log(window.location)
+    // console.log(window.location)
     return io({
         query: 'r_var='+room
     });
@@ -72,6 +73,7 @@ const Retro = ()=>{
       socket = socket_connect(sessionID.session);
       socket.on('chat message', (data) =>{
         console.log("MessageFromSocket=>", data)
+        setSessionData([...sessionData, data])
         
       })
     }
@@ -93,11 +95,12 @@ const Retro = ()=>{
   }
 
   return(
-    <React.Fragment>
+    <>
     {console.log("rerendered: ",count.num) }
-    {"session" in sessionID?<RetroBody session={sessionID} data={sessionData} setData={sendDataToSocket}/>:<RetroStartForm setSession={setSessionID}/>}
-    
-    </React.Fragment>
+    {"session" in sessionID?
+    <RetroBody session={sessionID} data={sessionData} setData={sendDataToSocket}/>:
+    <RetroStartForm setSession={setSessionID}/>}
+    </>
   )
 }
 
